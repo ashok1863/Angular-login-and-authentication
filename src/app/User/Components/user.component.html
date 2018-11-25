@@ -1,0 +1,84 @@
+﻿<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        User Management
+    </div>
+    <div class='panel-body'>
+        <div class='table-responsive'>
+           
+            <button class="btn btn-lg btn-outline-primary" (click)="addUser(content)">Add</button>
+            <!--<div style="padding-bottom:10px"><button class="btn btn-primary" (click)="addTemplateUser()">Add User Template</button></div>-->
+            <div class="alert alert-info" role="alert" *ngIf="indLoading"><img src="../../images/loading.gif" width="32" height="32" /> Loading...</div>
+            <div *ngIf='users && users.length==0' class="alert alert-info" role="alert">No record found!</div>
+            <table class='table table-striped' *ngIf='users && users.length'>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>{{user.FirstName}}</td>
+                        <td>{{user.LastName}}</td>
+                        <td>{{user.Gender}}</td>
+                        <td>
+                            <button title="Edit" class="btn btn-primary" (click)="editUser(content,user.Id)">Edit</button>
+                            <button title="Delete" class="btn btn-danger" (click)="deleteUser(content,user.Id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+            </div>
+        </div>
+        <div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{msg}}
+        </div>
+    </div>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+ <form  (ngSubmit)="onSubmit(userFrm)" [formGroup]="userFrm" >
+    <div class="modal-header">
+      <h4 class="modal-title">{{modalTitle}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+            <div class="form-group">
+                    <div>
+                        <span>First name*</span>
+                        <input type="text" class="form-control"  formControlName="FirstName" placeholder="First Name" [(ngModel)]="FirstName">
+                    </div>
+                    <div>
+                        <span>Last name</span>
+                        <input type="text" class="form-control" placeholder="Last Name" formControlName="LastName" [(ngModel)]="LastName">
+                    </div>
+                    <div>
+                        <span>Gender*</span>
+                        <select formControlName="Gender" [(ngModel)]="Gender" class="form-control" [(ngModel)]="Gender">
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                </div>
+    </div>
+    <div class="modal-footer">
+    <!-- <button type="submit" class="btn btn-outline-dark" (click)="c('Close click')">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button> -->
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+      <button type="submit" [disabled]="userFrm.invalid" class="btn btn-outline-dark">{{modalBtnTitle}}</button>
+    </div>
+    </form>
+  </ng-template>
+  
+
+  
+ 
